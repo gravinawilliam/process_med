@@ -7,7 +7,7 @@ const errorHandler = (
   response: Response,
   _: NextFunction,
 ): Response => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'dev') {
     // eslint-disable-next-line no-console
     console.error(error);
   }
