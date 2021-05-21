@@ -22,5 +22,8 @@
     "ts-node-dev": "^1.1.6",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.8"
+  },
+  "dependencies": {
+    "dotenv": "^9.0.2"
   }
 }
