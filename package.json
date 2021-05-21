@@ -3,5 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "William Gravina",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "ts-node-dev": "^1.1.6",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.9.8"
+  }
 }
