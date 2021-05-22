@@ -26,6 +26,11 @@ export default class CreateDoctorService {
       throw new AppError('CellPhone name already exists.', CONFLICT);
     }
 
+    const crmExists = await this.doctorsRepository.findByCrm(crm);
+    if (crmExists) {
+      throw new AppError('CRM name already exists.', CONFLICT);
+    }
+
     const doctor = await this.doctorsRepository.create({
       name,
       cellPhone,
