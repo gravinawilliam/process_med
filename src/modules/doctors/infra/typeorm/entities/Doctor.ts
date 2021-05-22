@@ -1,6 +1,8 @@
 import { Exclude } from 'class-transformer';
 import { v4 } from 'uuid';
 import IDoctor from '@modules/doctors/interfaces/models/IDoctor';
+import Specialty from '@modules/specialties/infra/typeorm/entities/Specialty';
+import ISpecialty from '@modules/specialties/interfaces/models/ISpecialty';
 import EncryptionDataBase from '@shared/utils/EncryptionDataBase';
 import {
   Entity,
@@ -8,6 +10,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity('doctors')
@@ -47,6 +51,16 @@ export default class Doctor implements IDoctor {
     transformer: EncryptionDataBase,
   })
   cep: string;
+
+  @ManyToMany(() => Specialty, {
+    eager: true,
+  })
+  @JoinTable({
+    name: 'specialties_doctors',
+    joinColumns: [{ name: 'doctor_id' }],
+    inverseJoinColumns: [{ name: 'specialty_id' }],
+  })
+  specialties: ISpecialty[];
 
   @CreateDateColumn()
   @Exclude()
