@@ -15,4 +15,13 @@ export default class FakeDoctorsRepository implements IDoctorsRepository {
     this.doctors.push(doctorCreated);
     return doctorCreated;
   }
+
+  public async findByCellPhone(
+    cellPhone: string,
+  ): Promise<IDoctor | undefined> {
+    const foundDoctor = this.doctors.find(
+      doctor => doctor.cellPhone === cellPhone,
+    );
+    return foundDoctor;
+  }
 }
