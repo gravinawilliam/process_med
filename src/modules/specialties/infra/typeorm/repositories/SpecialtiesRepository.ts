@@ -17,6 +17,11 @@ export default class SpecialtiesRepository implements ISpecialtiesRepository {
     return specialtyCreated;
   }
 
+  public async findByIds(ids: string[]): Promise<ISpecialty[]> {
+    const foundSpecialties = await this.ormRepository.findByIds(ids);
+    return foundSpecialties;
+  }
+
   public async findByName(name: string): Promise<ISpecialty | undefined> {
     const foundSpecialty = await this.ormRepository.findOne({
       where: {
