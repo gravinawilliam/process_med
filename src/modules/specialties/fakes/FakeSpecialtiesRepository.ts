@@ -10,12 +10,12 @@ export default class FakeSpecialtiesRepository
   private specialties: ISpecialty[] = [];
 
   public async create(specialty: ICreateSpecialtyDTO): Promise<ISpecialty> {
-    const userCreated = Object.assign(new Specialty(), {
+    const specialtyCreated = Object.assign(new Specialty(), {
       id: v4(),
       ...specialty,
     });
-    this.specialties.push(userCreated);
-    return userCreated;
+    this.specialties.push(specialtyCreated);
+    return specialtyCreated;
   }
 
   public async findByName(name: string): Promise<ISpecialty | undefined> {
