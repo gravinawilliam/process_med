@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
 export const CREATED = 201;
+export const CONFLICT = 409;
