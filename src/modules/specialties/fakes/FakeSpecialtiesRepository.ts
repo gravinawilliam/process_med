@@ -17,4 +17,11 @@ export default class FakeSpecialtiesRepository
     this.specialties.push(userCreated);
     return userCreated;
   }
+
+  public async findByName(name: string): Promise<ISpecialty | undefined> {
+    const foundSpecialty = this.specialties.find(
+      specialty => specialty.name === name,
+    );
+    return foundSpecialty;
+  }
 }
