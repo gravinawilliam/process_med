@@ -16,4 +16,15 @@ export default class DoctorsRepository implements IDoctorsRepository {
     await this.ormRepository.save(doctorCreated);
     return doctorCreated;
   }
+
+  public async findByCellPhone(
+    cellPhone: string,
+  ): Promise<IDoctor | undefined> {
+    const foundDoctor = await this.ormRepository.findOne({
+      where: {
+        cellPhone,
+      },
+    });
+    return foundDoctor;
+  }
 }
