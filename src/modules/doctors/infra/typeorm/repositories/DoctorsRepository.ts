@@ -27,4 +27,13 @@ export default class DoctorsRepository implements IDoctorsRepository {
     });
     return foundDoctor;
   }
+
+  public async findByCrm(crm: string): Promise<IDoctor | undefined> {
+    const foundDoctor = await this.ormRepository.findOne({
+      where: {
+        crm,
+      },
+    });
+    return foundDoctor;
+  }
 }
