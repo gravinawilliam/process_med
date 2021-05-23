@@ -16,6 +16,8 @@ const createDoctorValidator = celebrate({
     landline: Joi.string()
       .required()
       .regex(/^(\(\d{2}\)\s)(\d{4,5}-\d{4})$/),
+
+    specialtiesIds: Joi.array().min(2).required(),
   },
 });
 
