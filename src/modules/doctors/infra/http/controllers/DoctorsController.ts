@@ -6,7 +6,7 @@ import CreateDoctorService from '@modules/doctors/services/CreateDoctorService';
 
 export default class DoctorsController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { name, cellPhone, cep, crm, landline } = req.body;
+    const { name, cellPhone, cep, crm, landline, specialtiesIds } = req.body;
     const createDoctor = container.resolve(CreateDoctorService);
     const response = await createDoctor.execute({
       name,
@@ -14,6 +14,7 @@ export default class DoctorsController {
       cep,
       crm,
       landline,
+      specialtiesIds,
     });
     return res.status(CREATED).json(classToClass(response));
   }
