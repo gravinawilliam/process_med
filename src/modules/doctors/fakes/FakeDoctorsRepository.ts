@@ -29,4 +29,14 @@ export default class FakeDoctorsRepository implements IDoctorsRepository {
     const foundDoctor = this.doctors.find(doctor => doctor.crm === crm);
     return foundDoctor;
   }
+
+  public async findById(id: string): Promise<IDoctor | undefined> {
+    const foundDoctor = this.doctors.find(doctor => doctor.id === id);
+    return foundDoctor;
+  }
+
+  public async save(doctor: IDoctor): Promise<IDoctor> {
+    this.doctors.push(doctor);
+    return doctor;
+  }
 }
