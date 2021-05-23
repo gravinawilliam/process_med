@@ -146,4 +146,41 @@ describe('Update Doctor', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('should not be able to update a doctor with the CRM already registered in the database by another doctor', async () => {
+    const specialty1 = await fakeSpecialtiesRepository.create({
+      name: 'Alergologia',
+    });
+    const specialty2 = await fakeSpecialtiesRepository.create({
+      name: 'Angiologia',
+    });
+    const specialty3 = await fakeSpecialtiesRepository.create({
+      name: 'Angiologia',
+    });
+
+    await fakeDoctorsRepository.create({
+      name: 'William',
+      cellPhone: '(32) 99833-8853',
+      cep: '36503-312',
+      crm: '33.225.11',
+      landline: '(32) 3532-2280',
+      specialties: [specialty1, specialty2, specialty3],
+    });
+
+    const doctor2 = await fakeDoctorsRepository.create({
+      name: 'William',
+      cellPhone: '(33) 99822-1111',
+      cep: '36503-111',
+      crm: '33.542.45',
+      landline: '(32) 3532-3123',
+      specialties: [specialty1, specialty2],
+    });
+
+    await expect(
+      updateDoctor.execute({
+        doctorId: doctor2.id,
+        crm: '33.225.11',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
