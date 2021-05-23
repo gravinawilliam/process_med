@@ -10,4 +10,5 @@ export default interface IDoctor {
   specialties: ISpecialty[];
   createdAt: Date;
   updatedAt: Date;
+  deletedAt?: Date;
 }
