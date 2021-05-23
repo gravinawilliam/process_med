@@ -16,6 +16,11 @@ export default class FakeDoctorsRepository implements IDoctorsRepository {
     return doctorCreated;
   }
 
+  public async delete(id: string): Promise<void> {
+    const findIndex = this.doctors.findIndex(doctor => doctor.id === id);
+    this.doctors[findIndex].deletedAt = new Date();
+  }
+
   public async findByCellPhone(
     cellPhone: string,
   ): Promise<IDoctor | undefined> {
@@ -36,7 +41,8 @@ export default class FakeDoctorsRepository implements IDoctorsRepository {
   }
 
   public async save(doctor: IDoctor): Promise<IDoctor> {
-    this.doctors.push(doctor);
+    const findIndex = this.doctors.findIndex(doc => doc.id === doctor.id);
+    this.doctors[findIndex] = doctor;
     return doctor;
   }
 }
