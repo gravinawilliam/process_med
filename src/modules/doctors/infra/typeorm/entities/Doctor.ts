@@ -12,6 +12,7 @@ import {
   PrimaryColumn,
   ManyToMany,
   JoinTable,
+  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity('doctors')
@@ -54,6 +55,7 @@ export default class Doctor implements IDoctor {
 
   @ManyToMany(() => Specialty, {
     eager: true,
+    cascade: true,
   })
   @JoinTable({
     name: 'specialties_doctors',
@@ -69,6 +71,10 @@ export default class Doctor implements IDoctor {
   @UpdateDateColumn()
   @Exclude()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  @Exclude()
+  deletedAt?: Date;
 
   constructor() {
     if (!this.id) {
