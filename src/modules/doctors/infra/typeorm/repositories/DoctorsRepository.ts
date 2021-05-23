@@ -17,6 +17,10 @@ export default class DoctorsRepository implements IDoctorsRepository {
     return doctorCreated;
   }
 
+  public async delete(id: string): Promise<void> {
+    await this.ormRepository.softDelete(id);
+  }
+
   public async findByCellPhone(
     cellPhone: string,
   ): Promise<IDoctor | undefined> {
