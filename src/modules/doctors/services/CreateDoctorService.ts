@@ -23,12 +23,19 @@ export default class CreateDoctorService {
     landline,
     specialtiesIds,
   }: IRequestCreateDoctorDTO): Promise<IDoctor> {
-    const specialties = await this.specialtiesRepository.findByIds(
-      specialtiesIds,
+    const newSpecialtiesIds = specialtiesIds.filter(
+      (specialty, i) => specialtiesIds.indexOf(specialty) === i,
     );
 
-    if (!specialties) {
-      throw new AppError('Specialties not found', NOT_FOUND);
+    const specialties = await this.specialtiesRepository.findByIds(
+      newSpecialtiesIds,
+    );
+
+    if (specialties.length < 2) {
+      throw new AppError(
+        'You need to report two or more specialties',
+        NOT_FOUND,
+      );
     }
 
     const cellPhoneExists = await this.doctorsRepository.findByCellPhone(
