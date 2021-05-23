@@ -1,7 +1,8 @@
-import { CONFLICT } from '@shared/constants/HttpStatusCode';
+import ISpecialtiesRepository from '@modules/specialties/interfaces/repositories/ISpecialtiesRepository';
+import { CONFLICT, NOT_FOUND } from '@shared/constants/HttpStatusCode';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
-import ICreateDoctorDTO from '../interfaces/dtos/ICreateDoctorDTO';
+import IRequestCreateDoctorDTO from '../interfaces/dtos/IRequestCreateDoctorDTO';
 import IDoctor from '../interfaces/models/IDoctor';
 import IDoctorsRepository from '../interfaces/repositories/IDoctorsRepository';
 
@@ -10,6 +11,8 @@ export default class CreateDoctorService {
   constructor(
     @inject('DoctorsRepository')
     private doctorsRepository: IDoctorsRepository,
+    @inject('SpecialtiesRepository')
+    private specialtiesRepository: ISpecialtiesRepository,
   ) {}
 
   public async execute({
@@ -18,7 +21,16 @@ export default class CreateDoctorService {
     cep,
     crm,
     landline,
-  }: ICreateDoctorDTO): Promise<IDoctor> {
+    specialtiesIds,
+  }: IRequestCreateDoctorDTO): Promise<IDoctor> {
+    const specialties = await this.specialtiesRepository.findByIds(
+      specialtiesIds,
+    );
+
+    if (!specialties) {
+      throw new AppError('Specialties not found', NOT_FOUND);
+    }
+
     const cellPhoneExists = await this.doctorsRepository.findByCellPhone(
       cellPhone,
     );
@@ -37,7 +49,9 @@ export default class CreateDoctorService {
       cep,
       crm,
       landline,
+      specialties,
     });
+
     return doctor;
   }
 }
