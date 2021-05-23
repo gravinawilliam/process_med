@@ -36,4 +36,14 @@ export default class DoctorsRepository implements IDoctorsRepository {
     });
     return foundDoctor;
   }
+
+  public async findById(id: string): Promise<IDoctor | undefined> {
+    const foundDoctor = await this.ormRepository.findOne(id);
+    return foundDoctor;
+  }
+
+  public async save(doctor: IDoctor): Promise<IDoctor> {
+    await this.ormRepository.save(doctor);
+    return doctor;
+  }
 }
