@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
-import { CREATED } from '@shared/constants/HttpStatusCode';
+import { CREATED, OK } from '@shared/constants/HttpStatusCode';
 import CreateDoctorService from '@modules/doctors/services/CreateDoctorService';
+import UpdateDoctorService from '@modules/doctors/services/UpdateDoctorService';
 
 export default class DoctorsController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -17,5 +18,21 @@ export default class DoctorsController {
       specialtiesIds,
     });
     return res.status(CREATED).json(classToClass(response));
+  }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const { name, cellPhone, cep, crm, landline, specialtiesIds } = req.body;
+    const updateDoctor = container.resolve(UpdateDoctorService);
+    const response = await updateDoctor.execute({
+      doctorId: id,
+      name,
+      cellPhone,
+      cep,
+      crm,
+      landline,
+      specialtiesIds,
+    });
+    return res.status(OK).json(classToClass(response));
   }
 }
