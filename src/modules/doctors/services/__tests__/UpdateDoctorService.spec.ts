@@ -183,4 +183,31 @@ describe('Update Doctor', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('must be able to pass null parameters in the update doctor service', async () => {
+    const specialty1 = await fakeSpecialtiesRepository.create({
+      name: 'Alergologia',
+    });
+    const specialty2 = await fakeSpecialtiesRepository.create({
+      name: 'Angiologia',
+    });
+    const specialty3 = await fakeSpecialtiesRepository.create({
+      name: 'Angiologia',
+    });
+
+    const doctor = await fakeDoctorsRepository.create({
+      name: 'William',
+      cellPhone: '(32) 99833-8853',
+      cep: '36503-312',
+      crm: '33.225.11',
+      landline: '(32) 3532-2280',
+      specialties: [specialty1, specialty2, specialty3],
+    });
+
+    const updatedDoctor = await updateDoctor.execute({
+      doctorId: doctor.id,
+    });
+
+    expect(updatedDoctor.id).toBe(doctor.id);
+  });
 });
