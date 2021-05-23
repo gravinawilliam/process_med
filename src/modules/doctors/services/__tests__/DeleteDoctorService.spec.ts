@@ -1,5 +1,6 @@
 import FakeDoctorsRepository from '@modules/doctors/fakes/FakeDoctorsRepository';
 import FakeSpecialtiesRepository from '@modules/specialties/fakes/FakeSpecialtiesRepository';
+import AppError from '@shared/errors/AppError';
 import DeleteDoctorService from '../DeleteDoctorService';
 
 let fakeDoctorsRepository: FakeDoctorsRepository;
@@ -35,5 +36,13 @@ describe('Delete Doctor', () => {
     });
 
     expect(updatedDoctor);
+  });
+
+  it('should not be able to delete a doctor with an invalid id', async () => {
+    await expect(
+      deleteDoctor.execute({
+        doctorId: 'invalid id',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
