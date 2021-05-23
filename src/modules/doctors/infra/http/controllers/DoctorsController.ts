@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
-import { CREATED, OK } from '@shared/constants/HttpStatusCode';
+import { CREATED, NO_CONTENT, OK } from '@shared/constants/HttpStatusCode';
 import CreateDoctorService from '@modules/doctors/services/CreateDoctorService';
 import UpdateDoctorService from '@modules/doctors/services/UpdateDoctorService';
+import DeleteDoctorService from '@modules/doctors/services/DeleteDoctorService';
 
 export default class DoctorsController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -34,5 +35,14 @@ export default class DoctorsController {
       specialtiesIds,
     });
     return res.status(OK).json(classToClass(response));
+  }
+
+  public async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const deleteDoctor = container.resolve(DeleteDoctorService);
+    const response = await deleteDoctor.execute({
+      doctorId: id,
+    });
+    return res.status(NO_CONTENT).json(classToClass(response));
   }
 }
