@@ -1,5 +1,6 @@
 import FakeDoctorsRepository from '@modules/doctors/fakes/FakeDoctorsRepository';
 import FakeSpecialtiesRepository from '@modules/specialties/fakes/FakeSpecialtiesRepository';
+import AppError from '@shared/errors/AppError';
 import UpdateDoctorService from '../UpdateDoctorService';
 
 let fakeDoctorsRepository: FakeDoctorsRepository;
@@ -55,5 +56,29 @@ describe('Update Doctor', () => {
       specialty2,
       specialty3,
     ]);
+  });
+
+  it('should not be able to update a doctor with an invalid doctorId', async () => {
+    const specialty1 = await fakeSpecialtiesRepository.create({
+      name: 'Alergologia',
+    });
+    const specialty2 = await fakeSpecialtiesRepository.create({
+      name: 'Angiologia',
+    });
+    const specialty3 = await fakeSpecialtiesRepository.create({
+      name: 'Angiologia',
+    });
+
+    await expect(
+      updateDoctor.execute({
+        doctorId: 'invalid id',
+        name: 'Will',
+        cellPhone: '(32) 99833-8855',
+        cep: '36503-311',
+        crm: '33.225.12',
+        landline: '(32) 3532-2281',
+        specialtiesIds: [specialty1.id, specialty2.id, specialty3.id],
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
