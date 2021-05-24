@@ -4,4 +4,8 @@ export default interface ISearchDoctorDTO {
   landline?: string;
   cellPhone?: string;
   cep?: string;
+  city?: string;
+  state?: string;
+  neighborhood?: string;
+  street?: string;
 }
