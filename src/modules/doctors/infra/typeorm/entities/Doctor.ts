@@ -53,6 +53,30 @@ export default class Doctor implements IDoctor {
   })
   cep: string;
 
+  @Column({
+    type: 'varchar',
+    transformer: EncryptionDataBase,
+  })
+  city: string;
+
+  @Column({
+    type: 'varchar',
+    transformer: EncryptionDataBase,
+  })
+  state: string;
+
+  @Column({
+    type: 'varchar',
+    transformer: EncryptionDataBase,
+  })
+  neighborhood: string;
+
+  @Column({
+    type: 'varchar',
+    transformer: EncryptionDataBase,
+  })
+  street: string;
+
   @ManyToMany(() => Specialty, {
     eager: true,
     cascade: true,
