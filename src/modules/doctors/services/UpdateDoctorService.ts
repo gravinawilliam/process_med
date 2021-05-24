@@ -1,5 +1,7 @@
 import ISpecialtiesRepository from '@modules/specialties/interfaces/repositories/ISpecialtiesRepository';
 import { CONFLICT, NOT_FOUND } from '@shared/constants/HttpStatusCode';
+import IAddressDTO from '@shared/container/providers/CepProvider/interfaces/dtos/IAddressDTO';
+import ICepProvider from '@shared/container/providers/CepProvider/interfaces/ICepProvider';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import IUpdateDoctorDTO from '../interfaces/dtos/IUpdateDoctorDTO';
@@ -13,6 +15,8 @@ export default class UpdateDoctorService {
     private doctorsRepository: IDoctorsRepository,
     @inject('SpecialtiesRepository')
     private specialtiesRepository: ISpecialtiesRepository,
+    @inject('CepProvider')
+    private cepProvider: ICepProvider,
   ) {}
 
   public async execute({
@@ -69,7 +73,17 @@ export default class UpdateDoctorService {
     }
 
     if (cep) {
+      let address: IAddressDTO;
+      try {
+        address = await this.cepProvider.getAddress(cep);
+      } catch (error) {
+        throw new AppError('CEP not found.', NOT_FOUND);
+      }
       doctor.cep = cep;
+      doctor.state = address.state;
+      doctor.city = address.city;
+      doctor.neighborhood = address.neighborhood;
+      doctor.street = address.street;
     }
 
     if (landline) {
