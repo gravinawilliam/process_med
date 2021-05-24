@@ -18,6 +18,10 @@ export default class FakeSpecialtiesRepository
     return specialtyCreated;
   }
 
+  public async findAll(): Promise<ISpecialty[]> {
+    return this.specialties;
+  }
+
   public async findByIds(ids: string[]): Promise<ISpecialty[]> {
     const foundSpecialties = this.specialties.filter(specialty =>
       ids.includes(specialty.id),
