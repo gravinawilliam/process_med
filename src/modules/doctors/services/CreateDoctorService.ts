@@ -1,5 +1,7 @@
 import ISpecialtiesRepository from '@modules/specialties/interfaces/repositories/ISpecialtiesRepository';
 import { CONFLICT, NOT_FOUND } from '@shared/constants/HttpStatusCode';
+import IAddressDTO from '@shared/container/providers/CepProvider/interfaces/dtos/IAddressDTO';
+import ICepProvider from '@shared/container/providers/CepProvider/interfaces/ICepProvider';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import IRequestCreateDoctorDTO from '../interfaces/dtos/IRequestCreateDoctorDTO';
@@ -13,6 +15,8 @@ export default class CreateDoctorService {
     private doctorsRepository: IDoctorsRepository,
     @inject('SpecialtiesRepository')
     private specialtiesRepository: ISpecialtiesRepository,
+    @inject('CepProvider')
+    private cepProvider: ICepProvider,
   ) {}
 
   public async execute({
@@ -49,6 +53,13 @@ export default class CreateDoctorService {
     if (crmExists) {
       throw new AppError('CRM name already exists.', CONFLICT);
     }
+    let address: IAddressDTO;
+
+    try {
+      address = await this.cepProvider.getAddress(cep);
+    } catch (error) {
+      throw new AppError('CEP not found.', NOT_FOUND);
+    }
 
     const doctor = await this.doctorsRepository.create({
       name,
@@ -57,6 +68,10 @@ export default class CreateDoctorService {
       crm,
       landline,
       specialties,
+      city: address.city,
+      neighborhood: address.neighborhood,
+      state: address.state,
+      street: address.street,
     });
 
     return doctor;
