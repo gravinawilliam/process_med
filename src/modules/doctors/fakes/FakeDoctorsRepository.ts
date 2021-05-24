@@ -36,19 +36,28 @@ export default class FakeDoctorsRepository implements IDoctorsRepository {
     return foundDoctor;
   }
 
-  public async findDoctors({
-    cellPhone,
-    cep,
-    crm,
-    landline,
-    name,
-  }: ISearchDoctorDTO): Promise<IDoctor[]> {
+  public async findDoctors(data: ISearchDoctorDTO): Promise<IDoctor[]> {
+    const {
+      cellPhone,
+      cep,
+      crm,
+      landline,
+      name,
+      city,
+      neighborhood,
+      state,
+      street,
+    } = data;
     const foundDoctor = this.doctors.filter(
       doctor =>
         doctor.cellPhone === cellPhone ||
         doctor.cep === cep ||
         doctor.crm === crm ||
         doctor.landline === landline ||
+        doctor.city === city ||
+        doctor.neighborhood === neighborhood ||
+        doctor.state === state ||
+        doctor.street === street ||
         doctor.name === name,
     );
     return foundDoctor;
