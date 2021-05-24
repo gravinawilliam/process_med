@@ -7,6 +7,10 @@ export default interface IDoctor {
   landline: string;
   cellPhone: string;
   cep: string;
+  city: string;
+  state: string;
+  neighborhood: string;
+  street: string;
   specialties: ISpecialty[];
   createdAt: Date;
   updatedAt: Date;
