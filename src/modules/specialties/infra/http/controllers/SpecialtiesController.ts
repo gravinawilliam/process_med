@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
-import { CREATED } from '@shared/constants/HttpStatusCode';
+import { CREATED, OK } from '@shared/constants/HttpStatusCode';
 import CreateSpecialtyService from '@modules/specialties/services/CreateSpecialtyService';
+import ListSpecialtiesService from '@modules/specialties/services/ListSpecialtiesService';
 
 export default class SpecialtiesController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -12,5 +13,11 @@ export default class SpecialtiesController {
       name,
     });
     return res.status(CREATED).json(classToClass(response));
+  }
+
+  public async index(req: Request, res: Response): Promise<Response> {
+    const listSpecialties = container.resolve(ListSpecialtiesService);
+    const response = await listSpecialties.execute();
+    return res.status(OK).json(classToClass(response));
   }
 }
