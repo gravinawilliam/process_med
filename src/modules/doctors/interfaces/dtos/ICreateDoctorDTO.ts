@@ -6,5 +6,9 @@ export default interface ICreateDoctorDTO {
   landline: string;
   cellPhone: string;
   cep: string;
+  city: string;
+  state: string;
+  neighborhood: string;
+  street: string;
   specialties: ISpecialty[];
 }
