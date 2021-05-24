@@ -55,17 +55,6 @@ export default class DoctorsRepository implements IDoctorsRepository {
       street,
     } = data;
     const foundDoctor = await this.ormRepository.find({
-      select: [
-        'name',
-        'cellPhone',
-        'cep',
-        'crm',
-        'landline',
-        'city',
-        'neighborhood',
-        'state',
-        'street',
-      ],
       where: [
         {
           crm,
