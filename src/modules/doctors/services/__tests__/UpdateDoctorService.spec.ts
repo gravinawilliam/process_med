@@ -35,6 +35,10 @@ describe('Update Doctor', () => {
       crm: '33.225.11',
       landline: '(32) 3532-2280',
       specialties: [specialty1, specialty2],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     const updatedDoctor = await updateDoctor.execute({
@@ -100,6 +104,10 @@ describe('Update Doctor', () => {
       crm: '33.225.11',
       landline: '(32) 3532-2280',
       specialties: [specialty1, specialty2, specialty3],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     await expect(
@@ -128,6 +136,10 @@ describe('Update Doctor', () => {
       crm: '33.225.11',
       landline: '(32) 3532-2280',
       specialties: [specialty1, specialty2, specialty3],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     const doctor2 = await fakeDoctorsRepository.create({
@@ -137,6 +149,10 @@ describe('Update Doctor', () => {
       crm: '33.542.45',
       landline: '(32) 3532-3123',
       specialties: [specialty1, specialty2],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     await expect(
@@ -165,6 +181,10 @@ describe('Update Doctor', () => {
       crm: '33.225.11',
       landline: '(32) 3532-2280',
       specialties: [specialty1, specialty2, specialty3],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     const doctor2 = await fakeDoctorsRepository.create({
@@ -174,6 +194,10 @@ describe('Update Doctor', () => {
       crm: '33.542.45',
       landline: '(32) 3532-3123',
       specialties: [specialty1, specialty2],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     await expect(
@@ -202,6 +226,10 @@ describe('Update Doctor', () => {
       crm: '33.225.11',
       landline: '(32) 3532-2280',
       specialties: [specialty1, specialty2, specialty3],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     const updatedDoctor = await updateDoctor.execute({

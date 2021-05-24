@@ -29,6 +29,10 @@ describe('Delete Doctor', () => {
       crm: '33.225.11',
       landline: '(32) 3532-2280',
       specialties: [specialty1, specialty2],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     const updatedDoctor = await deleteDoctor.execute({

@@ -28,6 +28,10 @@ describe('Search Doctors', () => {
       crm: '33.225.11',
       landline: '(32) 3532-2280',
       specialties: [specialty1, specialty2],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     await fakeDoctorsRepository.create({
@@ -37,6 +41,10 @@ describe('Search Doctors', () => {
       crm: '33.225.13',
       landline: '(32) 3532-2283',
       specialties: [specialty1, specialty2],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
     });
 
     const doctors = await searchDoctors.execute({
