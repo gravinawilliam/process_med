@@ -1,4 +1,5 @@
 import ICreateDoctorDTO from '@modules/doctors/interfaces/dtos/ICreateDoctorDTO';
+import ISearchDoctorDTO from '@modules/doctors/interfaces/dtos/ISearchDoctorDTO';
 import IDoctor from '@modules/doctors/interfaces/models/IDoctor';
 import IDoctorsRepository from '@modules/doctors/interfaces/repositories/IDoctorsRepository';
 import { getRepository, Repository } from 'typeorm';
@@ -37,6 +38,36 @@ export default class DoctorsRepository implements IDoctorsRepository {
       where: {
         crm,
       },
+    });
+    return foundDoctor;
+  }
+
+  public async findDoctors({
+    cellPhone,
+    cep,
+    crm,
+    landline,
+    name,
+  }: ISearchDoctorDTO): Promise<IDoctor[]> {
+    const foundDoctor = await this.ormRepository.find({
+      select: ['name', 'cellPhone', 'cep', 'crm', 'landline'],
+      where: [
+        {
+          crm,
+        },
+        {
+          cellPhone,
+        },
+        {
+          cep,
+        },
+        {
+          landline,
+        },
+        {
+          name,
+        },
+      ],
     });
     return foundDoctor;
   }
