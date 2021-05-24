@@ -1,19 +1,23 @@
 import FakeDoctorsRepository from '@modules/doctors/fakes/FakeDoctorsRepository';
 import FakeSpecialtiesRepository from '@modules/specialties/fakes/FakeSpecialtiesRepository';
+import FakeCepProvider from '@shared/container/providers/CepProvider/fakes/FakeCepProvider';
 import AppError from '@shared/errors/AppError';
 import UpdateDoctorService from '../UpdateDoctorService';
 
 let fakeDoctorsRepository: FakeDoctorsRepository;
 let fakeSpecialtiesRepository: FakeSpecialtiesRepository;
+let fakeCepProvider: FakeCepProvider;
 let updateDoctor: UpdateDoctorService;
 
 describe('Update Doctor', () => {
   beforeEach(() => {
     fakeDoctorsRepository = new FakeDoctorsRepository();
     fakeSpecialtiesRepository = new FakeSpecialtiesRepository();
+    fakeCepProvider = new FakeCepProvider();
     updateDoctor = new UpdateDoctorService(
       fakeDoctorsRepository,
       fakeSpecialtiesRepository,
+      fakeCepProvider,
     );
   });
 
@@ -237,5 +241,39 @@ describe('Update Doctor', () => {
     });
 
     expect(updatedDoctor.id).toBe(doctor.id);
+  });
+
+  it('should not be able to update a doctor with cep invalid', async () => {
+    const specialty1 = await fakeSpecialtiesRepository.create({
+      name: 'Alergologia',
+    });
+    const specialty2 = await fakeSpecialtiesRepository.create({
+      name: 'Angiologia',
+    });
+
+    const doctor = await fakeDoctorsRepository.create({
+      name: 'William',
+      cellPhone: '(32) 99833-8853',
+      cep: '36503-312',
+      crm: '33.225.11',
+      landline: '(32) 3532-2280',
+      specialties: [specialty1, specialty2],
+      city: 'Ubá',
+      neighborhood: 'Flores',
+      state: 'MG',
+      street: 'Rua Azul',
+    });
+
+    await expect(
+      updateDoctor.execute({
+        doctorId: doctor.id,
+        name: 'Will',
+        cellPhone: '(32) 99833-8853',
+        cep: 'invalid',
+        crm: '33.225.11',
+        landline: '(32) 3532-3123',
+        specialtiesIds: [specialty1.id, specialty2.id],
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
