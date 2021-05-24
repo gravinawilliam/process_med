@@ -16,6 +16,10 @@ export default class SearchDoctorsService {
     cep,
     crm,
     landline,
+    city,
+    neighborhood,
+    state,
+    street,
   }: ISearchDoctorDTO): Promise<IDoctor[]> {
     const doctors = await this.doctorsRepository.findDoctors({
       cellPhone,
@@ -23,6 +27,10 @@ export default class SearchDoctorsService {
       crm,
       landline,
       name,
+      city,
+      neighborhood,
+      state,
+      street,
     });
     return doctors;
   }
