@@ -42,15 +42,30 @@ export default class DoctorsRepository implements IDoctorsRepository {
     return foundDoctor;
   }
 
-  public async findDoctors({
-    cellPhone,
-    cep,
-    crm,
-    landline,
-    name,
-  }: ISearchDoctorDTO): Promise<IDoctor[]> {
+  public async findDoctors(data: ISearchDoctorDTO): Promise<IDoctor[]> {
+    const {
+      cellPhone,
+      cep,
+      crm,
+      landline,
+      name,
+      city,
+      neighborhood,
+      state,
+      street,
+    } = data;
     const foundDoctor = await this.ormRepository.find({
-      select: ['name', 'cellPhone', 'cep', 'crm', 'landline'],
+      select: [
+        'name',
+        'cellPhone',
+        'cep',
+        'crm',
+        'landline',
+        'city',
+        'neighborhood',
+        'state',
+        'street',
+      ],
       where: [
         {
           crm,
@@ -66,6 +81,18 @@ export default class DoctorsRepository implements IDoctorsRepository {
         },
         {
           name,
+        },
+        {
+          city,
+        },
+        {
+          neighborhood,
+        },
+        {
+          state,
+        },
+        {
+          street,
         },
       ],
     });
