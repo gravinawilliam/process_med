@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import Doctor from '../infra/typeorm/entities/Doctor';
 import ICreateDoctorDTO from '../interfaces/dtos/ICreateDoctorDTO';
+import ISearchDoctorDTO from '../interfaces/dtos/ISearchDoctorDTO';
 import IDoctor from '../interfaces/models/IDoctor';
 import IDoctorsRepository from '../interfaces/repositories/IDoctorsRepository';
 
@@ -32,6 +33,24 @@ export default class FakeDoctorsRepository implements IDoctorsRepository {
 
   public async findByCrm(crm: string): Promise<IDoctor | undefined> {
     const foundDoctor = this.doctors.find(doctor => doctor.crm === crm);
+    return foundDoctor;
+  }
+
+  public async findDoctors({
+    cellPhone,
+    cep,
+    crm,
+    landline,
+    name,
+  }: ISearchDoctorDTO): Promise<IDoctor[]> {
+    const foundDoctor = this.doctors.filter(
+      doctor =>
+        doctor.cellPhone === cellPhone ||
+        doctor.cep === cep ||
+        doctor.crm === crm ||
+        doctor.landline === landline ||
+        doctor.name === name,
+    );
     return foundDoctor;
   }
 
