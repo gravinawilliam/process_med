@@ -32,7 +32,17 @@ export default class DoctorsController {
   }
 
   public async index(req: Request, res: Response): Promise<Response> {
-    const { cellPhone, cep, crm, landline, name } = req.query;
+    const {
+      cellPhone,
+      cep,
+      crm,
+      landline,
+      name,
+      city,
+      neighborhood,
+      state,
+      street,
+    } = req.query;
     const searchDoctors = container.resolve(SearchDoctorsService);
     const response = await searchDoctors.execute({
       cellPhone: String(cellPhone),
@@ -40,6 +50,10 @@ export default class DoctorsController {
       crm: String(crm),
       landline: String(landline),
       name: String(name),
+      city: String(city),
+      neighborhood: String(neighborhood),
+      state: String(state),
+      street: String(street),
     });
     return res.status(OK).json(classToClass(response));
   }
